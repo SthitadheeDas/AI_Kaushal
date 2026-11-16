@@ -1,0 +1,89 @@
+# ============================================================
+# SamaadSetu Routing & Escalation Policy Rules
+# Config-Driven Rules Engine for 75 Uttar Pradesh Districts
+# ============================================================
+
+version: "1.0"
+jurisdiction: "Uttar Pradesh"
+
+routing_engine:
+  # Minimum confidence required for autonomous straight-through routing
+  # If confidence < 0.75, route to HUMAN_REVIEW queue on Officer Desk
+  confidence_gate_threshold: 0.75
+
+  # Spatial & temporal clustering parameters
+  clustering:
+    spatial_geohash_precision: 7      # ~150m x ~150m bounding box (matches village tola / city ward)
+    spatial_radius_meters: 500        # Haversine radius constraint
+    temporal_window_days: 7           # Max lookback for open ticket deduplication
+    semantic_cosine_threshold: 0.86   # Embedding cosine similarity threshold (text-embedding-004)
+
+  # Anti-Corruption & Governance Guardrails
+  governance:
+    # Maximum times an officer can reassign a ticket before locking
+    max_reassignment_hops: 1
+    # Minimum characters required for reassignment justification
+    min_justification_chars: 10
+    # Auto-escalation target upon second transfer attempt
+    lock_escalation_target: "DISTRICT_MAGISTRATE_BINDING_QUEUE"
+    # Mandatory photo resolution landmark match threshold
+    landmark_match_min_pct: 0.60
+    defect_resolution_min_pct: 0.70
+
+  # Hazard-Aware Sub-Ticket Trigger Rules
+  # Any match extracts an independent P1 Emergency ticket immediately
+  hazard_triggers:
+    - trigger_id: "HAZ_01_LIVE_WIRE"
+      hazard_type: "LIVE_ELECTRIC_WIRE"
+      department: "uppcl"
+      urgency_override: 5
+      sla_hours: 4
+      regex_patterns:
+        - "taar\\s+(toot|gir|chhoo|hanging)"
+        - "live\\s*wire"
+        - "high\\s*tension.*(paani|sadak|choolha)"
+        - "current\\s+(aa\\s+raha|daud\\s+raha)"
+        - "बिजली.*(तार|करंट|चिंगारी|गिर)"
+
+    - trigger_id: "HAZ_02_STRUCTURAL_COLLAPSE"
+      hazard_type: "STRUCTURAL_COLLAPSE_RISK"
+      department: "pwd"
+      urgency_override: 5
+      sla_hours: 6
+      regex_patterns:
+        - "(school|chhat|deewar|puliya|bridge).*(gir\\s+gayi|girne\\s+wali|dhas)"
+        - "collapse"
+        - "(छत|दीवार|पुलिया).*(गिर|धस|दरक)"
+
+    - trigger_id: "HAZ_03_DISEASE_OUTBREAK"
+      hazard_type: "EPIDEMIC_OUTBREAK"
+      department: "health"
+      urgency_override: 5
+      sla_hours: 12
+      regex_patterns:
+        - "(bukhar|dengue|haija|cholera).*(fail|maut|bimar|outbreak)"
+        - "(मलेरिया|डेंगू|हैजा|बीमारी).*(फैल|मौत)"
+
+    - trigger_id: "HAZ_04_TOXIC_WATER"
+      hazard_type: "TOXIC_DRINKING_WATER"
+      department: "jal_nigam"
+      urgency_override: 5
+      sla_hours: 12
+      regex_patterns:
+        - "(ganda|jahreela|badboodar).*(peene\\s+ka\\s+paani|nal)"
+        - "poisoned\\s*water"
+        - "(जहरीला|गंदा|सड़ा).*(पानी|नल)"
+
+  # Multi-Agency Disputed Boundary Rules (Solving PWD vs Nagar Nigam / Jal Nigam)
+  inter_agency_precedence:
+    - rule_name: "PWD_VS_NAGAR_NIGAM_ROAD"
+      condition: "road damage within municipal corporation limits"
+      default_assignment: "pwd"
+      secondary_assignment: "nagar_nigam"
+      resolution_rule: "If road is marked State Highway or MDR -> PWD; If inner mohalla lane -> Nagar Nigam"
+
+    - rule_name: "JAL_NIGAM_VS_NAGAR_NIGAM_DRAIN"
+      condition: "main trunk storm sewer vs street surface drain"
+      default_assignment: "nagar_nigam"
+      secondary_assignment: "jal_nigam"
+      resolution_rule: "Underground main conduit -> Jal Nigam; Open roadside street drain -> Nagar Nigam"

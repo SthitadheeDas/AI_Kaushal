@@ -1,0 +1,205 @@
+# ============================================================
+# SamaadSetu Department Taxonomy Specification
+# Modeled on Uttar Pradesh's CM Helpline 1076 & Jansunwai
+# Covering 10 Major Provincial Departments Across 75 Districts
+# ============================================================
+
+version: "1.0"
+jurisdiction: "Uttar Pradesh"
+
+departments:
+  - id: "pwd"
+    name_en: "Public Works Department (PWD)"
+    name_hi: "लोक निर्माण विभाग (पीडब्ल्यूडी)"
+    nodal_officer_rank: "Executive Engineer (EE) / Assistant Engineer (AE)"
+    standard_sla_days: 7
+    categories:
+      - code: "PWD_POTHOLE"
+        title: "Pothole & Surface Damage on State Roads"
+        urgency_default: 3
+        keywords: ["gaddha", "pothole", "sadak tuti", "kharab rasta", "koltaar", "damar"]
+      - code: "PWD_BRIDGE_CULVERT"
+        title: "Damaged Culvert / Bridge Approach Hazard"
+        urgency_default: 4
+        hazard_risk: true
+        keywords: ["puliya", "bridge", "culvert", "dhasan", "puliya tuti", "gir gaya"]
+      - code: "PWD_SIGNAGE_SAFETY"
+        title: "Missing Road Signage, Guard Rails & Crash Barriers"
+        urgency_default: 3
+        keywords: ["railing tuti", "sign board", "barricade", "andhera"]
+
+  - id: "jal_nigam"
+    name_en: "Jal Nigam / Rural Water Supply"
+    name_hi: "उ.प्र. जल निगम (ग्रामीण एवं नगरीय जल आपूर्ति)"
+    nodal_officer_rank: "General Manager (Jal Sansthan) / Assistant Engineer"
+    standard_sla_days: 4
+    categories:
+      - code: "JAL_DRINKING_CONTAMINATION"
+        title: "Contaminated / Toxic Drinking Water Supply"
+        urgency_default: 5
+        hazard_risk: true
+        keywords: ["ganda paani", "peela paani", "badboodar", "jahreela", "peene ka paani", "nal se keeda"]
+      - code: "JAL_PIPE_BURST"
+        title: "Underground Main Pipeline Burst / Heavy Water Leakage"
+        urgency_default: 3
+        keywords: ["pipeline phat gayi", "leakage", "sadak par paani", "supply line"]
+      - code: "JAL_HANDPUMP_REPAIR"
+        title: "Government Handpump Inoperative / Dry Borewell"
+        urgency_default: 2
+        keywords: ["handpump kharab", "nal sukh gaya", "chain tuti", "paani nahi de raha"]
+
+  - id: "uppcl"
+    name_en: "UP Power Corporation Limited (UPPCL)"
+    name_hi: "उ.प्र. पावर कारपोरेशन लिमिटेड (विद्युत विभाग)"
+    nodal_officer_rank: "Sub-Divisional Officer (SDO) / Executive Engineer"
+    standard_sla_days: 2
+    categories:
+      - code: "UPPCL_LIVE_WIRE_HAZARD"
+        title: "High Tension Live Wire Snapped / Fire Hazard"
+        urgency_default: 5
+        hazard_risk: true
+        keywords: ["taar gir gaya", "live wire", "high tension", "aag lag gayi", "current aa raha", "chingari"]
+      - code: "UPPCL_TRANSFORMER_BURNOUT"
+        title: "Distribution Transformer Burnt / Oil Leakage"
+        urgency_default: 4
+        keywords: ["transformer phus", "transformer jal gaya", "dhuan", "bijli gul", "voltage nahi"]
+      - code: "UPPCL_UNANNOUNCED_BLACKOUT"
+        title: "Prolonged Unannounced Feeder Tripping / Outage"
+        urgency_default: 3
+        keywords: ["do din se light nahi", "roaster", "andhera mohalla", "supply band"]
+
+  - id: "basic_education"
+    name_en: "Basic Education Department"
+    name_hi: "बेसिक शिक्षा विभाग"
+    nodal_officer_rank: "Basic Shiksha Adhikari (BSA) / Block Education Officer (BEO)"
+    standard_sla_days: 5
+    categories:
+      - code: "EDU_SCHOOL_COLLAPSE_RISK"
+        title: "Dilapidated Primary School Roof / Wall Collapse Risk"
+        urgency_default: 5
+        hazard_risk: true
+        keywords: ["chhat tapak rahi", "deewar girne wali", "khatarnak bhavan", "school plaster gira"]
+      - code: "EDU_MIDDAY_MEAL_QUALITY"
+        title: "Mid-Day Meal Substandard / Food Poisoning Risk"
+        urgency_default: 4
+        hazard_risk: true
+        keywords: ["mid day meal", "khana kharab", "keeda nikla", "bachhe bimar", "ration chori"]
+      - code: "EDU_TEACHER_ABSENTEEISM"
+        title: "Chronic Teacher Absenteeism in Parishadiya School"
+        urgency_default: 3
+        keywords: ["masterji nahi aate", "school band", "ek hi teacher", "padhai band"]
+
+  - id: "wcd"
+    name_en: "Women & Child Development (ICDS / Anganwadi)"
+    name_hi: "महिला कल्याण एवं बाल विकास पुष्टाहार विभाग"
+    nodal_officer_rank: "District Programme Officer (DPO) / Child Development Project Officer (CDPO)"
+    standard_sla_days: 5
+    categories:
+      - code: "WCD_PNSHTAHAR_DIVERSION"
+        title: "Pushtahar (Nutritional Supplement) Black-marketing"
+        urgency_default: 3
+        keywords: ["daliya nahi mila", "panjeeri", "anganwadi chori", "ration becha"]
+      - code: "WCD_ANGANWADI_CLOSED"
+        title: "Anganwadi Center Locked / Services Denied"
+        urgency_default: 2
+        keywords: ["kendra band", "karyakarti anupashthit", "tola center"]
+
+  - id: "health"
+    name_en: "Health & Family Welfare"
+    name_hi: "चिकित्सा, स्वास्थ्य एवं परिवार कल्याण विभाग"
+    nodal_officer_rank: "Chief Medical Officer (CMO) / Deputy CMO"
+    standard_sla_days: 3
+    categories:
+      - code: "HLT_EPIDEMIC_OUTBREAK"
+        title: "Clustered Disease Outbreak (Dengue, Malaria, Cholera)"
+        urgency_default: 5
+        hazard_risk: true
+        keywords: ["bukhar fail gaya", "dengue", "haija", "cholera", "kai log bimar", "maut ho gayi"]
+      - code: "HLT_AMBULANCE_DENIAL"
+        title: "Emergency 108 / 102 Ambulance Refusal"
+        urgency_default: 4
+        hazard_risk: true
+        keywords: ["ambulance nahi aayi", "108 mana kar diya", "raste mein delivery", "driver paisa manga"]
+      - code: "HLT_MEDICINE_STOCKOUT"
+        title: "Government PHC / CHC Essential Medicine Stockout"
+        urgency_default: 2
+        keywords: ["dawa nahi mili", "bahar ki p医rchi", "paracetamol nahi", "antivenom"]
+
+  - id: "panchayati_raj"
+    name_en: "Panchayati Raj Department"
+    name_hi: "पंचायती राज विभाग"
+    nodal_officer_rank: "District Panchayat Raj Officer (DPRO) / Assistant Development Officer (ADO Panchayat)"
+    standard_sla_days: 6
+    categories:
+      - code: "PR_VILLAGE_DRAIN_OVERFLOW"
+        title: "Rural Open Drain Clogging / Street Inundation"
+        urgency_default: 3
+        keywords: ["gaon ki nali", "nali ka paani", "sadak par kichad", "safaikarmi nahi aata"]
+      - code: "PR_COMMUNITY_TOILET_DEFECT"
+        title: "Izzat Ghar / Community Toilet Non-functional"
+        urgency_default: 2
+        keywords: ["shauchalaya tala band", "tanki tooti", "izzat ghar", "paani nahi"]
+      - code: "PR_STREETLIGHT_MALFUNCTION"
+        title: "Village Solar / Streetlight Inoperative"
+        urgency_default: 2
+        keywords: ["solar light kharab", "khamba andhera", "battery chori"]
+
+  - id: "nagar_nigam"
+    name_en: "Urban Development & Municipal Corporation (Nagar Nigam)"
+    name_hi: "नगर विकास एवं नगर निगम / पालिका परिषद"
+    nodal_officer_rank: "Municipal Commissioner / Executive Officer (EO)"
+    standard_sla_days: 3
+    categories:
+      - code: "NN_GARBAGE_DUMP_OVERFLOW"
+        title: "Chronic Unattended Solid Waste Garbage Dump"
+        urgency_default: 3
+        keywords: ["kachra dher", "garbage pile", "kuda nahi utha", "badboo", "mohalla kachra"]
+      - code: "NN_URBAN_SEWER_CHOKED"
+        title: "Urban Sewer Manhole Overflowing onto Main Road"
+        urgency_default: 4
+        hazard_risk: true
+        keywords: ["manhole khula", "sewer ubal raha", "ganda paani sadak", "dhakkan toota"]
+      - code: "NN_STRAY_ANIMAL_MENACE"
+        title: "Aggressive Stray Animals / Dog Bite Clusters"
+        urgency_default: 3
+        keywords: ["aawara kuttay", "saand ka aatank", "katne laga", "stray cattle"]
+
+  - id: "revenue"
+    name_en: "Revenue Department (Board of Revenue)"
+    name_hi: "राजस्व विभाग (तहसीलदार / उपजिलाधिकारी प्रशासन)"
+    nodal_officer_rank: "Sub-Divisional Magistrate (SDM) / Tehsildar"
+    standard_sla_days: 10
+    categories:
+      - code: "REV_PUBLIC_LAND_ENCROACHMENT"
+        title: "Encroachment on Gram Sabha Land / Pond / Chakmarg"
+        urgency_default: 3
+        keywords: ["chakmarg par kabza", "talab par kabza", "charnokhar", "zabardasti jota", "gram sabha zameen"]
+      - code: "REV_FLOOD_DISASTER_RELIEF"
+        title: "Natural Calamity / Flood Relief Ex-Gratia Delay"
+        urgency_default: 4
+        keywords: ["baadh rahat", "muavza nahi mila", "fasal barbad", "lekhpal paisa manga"]
+      - code: "REV_PATTA_DISPUTE"
+        title: "Allotment / Land Boundary Demarcation Delay"
+        urgency_default: 2
+        keywords: ["haddi bandhi", "seemanankan", "patta dispute", "lekhpal aakhya"]
+
+  - id: "police"
+    name_en: "Home & Police Department"
+    name_hi: "गृह एवं पुलिस विभाग (गैर-संज्ञेय एवं जनसुनवाई)"
+    nodal_officer_rank: "Circle Officer (CO) / Additional Superintendent of Police (ASP)"
+    standard_sla_days: 3
+    categories:
+      - code: "POL_INTIMIDATION_COMMUNITY"
+        title: "Unlawful Intimidation / Threats over Complaint Filing"
+        urgency_default: 5
+        hazard_risk: true
+        keywords: ["shikayat band karne ki dhamki", "gunde bheje", "marne ki dhamki", "dara raha hai"]
+      - code: "POL_ILLEGAL_ENCROACHMENT_FORCE"
+        title: "Forcible Encroachment Accompanied by Violent Threat"
+        urgency_default: 4
+        hazard_risk: true
+        keywords: ["lathi lekar aaye", "zabardasti kabza", "khet jota", "hathiyar"]
+      - code: "POL_NON_COGNIZABLE_DISPUTE"
+        title: "Neighborhood Public Nuisance / Harassment"
+        urgency_default: 2
+        keywords: ["shor sharaba", "gaali galoch", "sharab pee kar hangama", "nuisance"]
