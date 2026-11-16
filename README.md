@@ -66,14 +66,14 @@ flowchart TD
         Q --> R["Spatial Bucket: 500m Geohash"]
         R --> S["Temporal Window: 7 Days"]
         S --> T["pgvector Complaint Embeddings"]
-        T --> U{"Cosine Similarity >= 0.86?"}
+        T --> U{"Cosine Similarity at least 0.86?"}
         U -- "Yes" --> V["Link to Master Cluster\n+1 Corroborating Citizen"]
         U -- "No" --> W["Create New Root Ticket"]
     end
 
     subgraph STAGE_7["Stage 7: Route"]
         W --> X["Config-Driven YAML Engine\n(config/routing_rules.yaml)"]
-        X --> Y{"Routing Confidence >= 0.75?"}
+        X --> Y{"Routing Confidence at least 0.75?"}
         Y -- "Low Confidence" --> Z["Flag: HUMAN_REVIEW_QUEUE"]
         Y -- "Confident" --> AA["Assign Department Nodal Officer\n(1-Hop Reassignment Lock)"]
     end
@@ -92,41 +92,41 @@ flowchart TD
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Citizen as 👤 Rural Citizen (Awadhi/Hindi)
-    participant CP as 📱 Citizen PWA (Voice-First)
-    participant API as ⚡ FastAPI & Redis Streams
-    participant AI as 🧠 Gemini 2.5 & pgvector
-    participant Desk as 👮 Officer Workbench (75 DMs)
-    actor Officer as 👷 Department Nodal Officer
+    actor Citizen as Rural Citizen (Awadhi/Hindi)
+    participant CP as Citizen PWA (Voice-First)
+    participant API as FastAPI & Redis Streams
+    participant AI as Gemini 2.5 & pgvector
+    participant Desk as Officer Workbench (75 DMs)
+    actor Officer as Department Nodal Officer
 
-    Note over Citizen, CP: End 1: Citizen Voice-First Intake
-    Citizen->>CP: Opens app (Auto-plays spoken welcome in Awadhi/Hindi)
-    Citizen->>CP: Taps 🎙️ Blue Mic Tile and speaks complaint
-    Citizen->>CP: Taps 📷 Green Camera Tile to take geo-tagged photo
-    CP->>CP: Canvas progressive compression (<150 KB) + captures EXIF GPS
-    CP->>Citizen: Speaks Audio Readback Summary ("Kya hum yeh darj karein?")
-    Citizen->>CP: Taps giant Green Checkmark (✓)
-    CP->>API: POST /v1/complaints (payload + device_sig)
+    Note over Citizen, CP: End 1 - Citizen Voice-First Intake
+    Citizen->>CP: Opens app and hears spoken welcome
+    Citizen->>CP: Taps Blue Mic Tile and speaks complaint
+    Citizen->>CP: Taps Green Camera Tile to capture photo
+    CP->>CP: Progressive compression (under 150 KB) plus EXIF GPS capture
+    CP->>Citizen: Speaks Audio Readback Summary
+    Citizen->>CP: Confirms submission via Green Checkmark
+    CP->>API: POST /v1/complaints (payload and device_sig)
 
     Note over API, AI: AI Pipeline Processing (Stages 1 to 7)
-    API->>AI: Gemini Multimodal ASR + Vision + pgvector classification
-    AI->>AI: Evaluates Hazard Rules (e.g. Live Wire) -> Spawns P1 Emergency if critical
-    AI->>AI: Geohash 500m + Vector Cosine Deduplication against active cluster
-    AI-->>API: Verified Ticket { ticket_id, cluster_id, dept, urgency, sla }
+    API->>AI: Gemini Multimodal ASR plus Vision plus pgvector classification
+    AI->>AI: Evaluates Hazard Rules and splits P1 Emergency if critical
+    AI->>AI: Geohash 500m and Vector Cosine Deduplication against active cluster
+    AI-->>API: Verified Ticket (ticket_id, cluster_id, dept, urgency, sla)
 
-    Note over Desk, Officer: End 2: Officer Verification & Forensics
+    Note over Desk, Officer: End 2 - Officer Verification & Forensics
     API->>Desk: Live Real-Time Sync (Displays in District Triage Queue)
     Officer->>Desk: Inspects Dialect Audio, Transcript, and EXIF vs Network GPS
-    Officer->>Desk: Clicks "📞 Masked Recorded IVR Call" (Citizen phone masked)
-    Officer->>Desk: Completes repair work and uploads Live "After" photo
-    Desk->>AI: Two-Way Landmark Alignment & Defect Diff Check
-    AI-->>Desk: SSIM & Landmark Match >= 60% confirmed; Damage rectified
+    Officer->>Desk: Initiates Masked Recorded IVR Call (Citizen phone masked)
+    Officer->>Desk: Completes repair work and uploads Live After photo
+    Desk->>AI: Two-Way Landmark Alignment and Defect Diff Check
+    AI-->>Desk: SSIM and Landmark Match above 60 percent verified and damage rectified
 
     Note over Citizen, CP: Closed-Loop Citizen Satisfaction Audit
     Desk->>CP: Real-time update to Citizen 4-Step Tracker
-    CP->>Citizen: Displays Before & After photos side-by-side
-    CP->>Citizen: Spoken prompt: "Kya aapka kaam ho gaya hai?"
-    Citizen->>CP: Taps 👍 (Satisfied -> Closed) or 👎 (Reopen to DM)
+    CP->>Citizen: Displays Before and After photos side-by-side
+    CP->>Citizen: Spoken prompt - Has your issue been resolved?
+    Citizen->>CP: Citizen taps Satisfied or Reopen to DM
 ```
 
 ---
